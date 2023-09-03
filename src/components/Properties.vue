@@ -1,0 +1,86 @@
+<template>
+  <div class="bg-white p-4 mb-4 border-b w-full">
+    <div v-if="data" class="flex items-center gap-2 flex-wrap">
+      <input
+        v-if="data.tagName == 'P'"
+        class="w-44 h-8 border focus:outline-none focus:border-[#a670ff] p-2"
+        v-model="textField"
+        @input="updateTextField"
+      />
+      <input
+        v-if="data.style.background"
+        class="w-8 h-8 hover:border-[#a670ff]"
+        type="color"
+        id="colorPicker"
+        v-model="data.style.background"
+      />
+
+      <div v-if="fontSize" class="flex items-center gap-2">
+        <button
+          @click="updateFontSize('subtract')"
+          class="p-2 border w-8 h-8 flex items-center justify-center hover:border-[#a670ff]"
+        >
+          <i class="pi pi-minus text-xs"></i>
+        </button>
+        <span class="text-[#a670ff]">{{ fontSize }}</span>
+        <button
+          @click="updateFontSize('add')"
+          class="p-2 border w-8 h-8 flex items-center justify-center hover:border-[#a670ff]"
+        >
+          <i class="pi pi-plus text-xs"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { computed, onMounted, ref, reactive, watch } from "vue";
+
+const props = defineProps(["element"]);
+
+const watchElement = computed(() => props.element);
+const fontSize = ref(null);
+const background = ref(null);
+const textField = ref(null);
+
+const data = ref(null);
+
+watch(watchElement, () => {
+  if (props.element) {
+    setElement();
+  }
+});
+
+onMounted(() => {
+  if (props.element) {
+    setElement();
+  }
+});
+
+const setElement = () => {
+  data.value = props.element;
+  fontSize.value = parseInt(props.element.style.fontSize, 10);
+  background.value = data.value.style.background;
+  textField.value = data.value.innerText;
+
+  console.log(data.value.tagName);
+};
+
+const updateFontSize = (type) => {
+  const size = parseInt(data.value.style.fontSize, 10);
+  if (type == "add") {
+    data.value.style.fontSize = size + 2 + "px";
+  } else if (type == "subtract" && size > 8) {
+    data.value.style.fontSize = size - 2 + "px";
+  }
+
+  fontSize.value = parseInt(data.value.style.fontSize, 10);
+};
+
+const updateTextField = () => {
+  data.value.innerText = textField.value;
+};
+</script>
+
+<style></style>

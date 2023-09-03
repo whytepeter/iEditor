@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-[#150037] z-10 fixed top-0 left-0 p-6 w-80 h-screen text-white flex flex-col gap-6"
+    class="bg-[#150037] z-20 fixed top-0 left-0 p-6 w-80 h-screen text-white flex flex-col gap-6"
   >
     <div class="grid grid-cols-2 gap-2 mt-2">
       <button
@@ -34,19 +34,18 @@
         :draggable="true"
         @dragstart="startDrag($event, shape)"
         :class="['pi', shape.icon]"
-        class="text-4xl"
+        class="text-4xl hover:text-[#A670FF] hover:cursor-pointer"
       ></i>
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
-import shapes from "../utils/icons.js";
+import { ref, reactive } from "vue";
 const activeBlock = ref("Elements");
 const blocks = ref(["Elements", "Shapes"]);
 
-const elements = ref([
+const elements = reactive([
   {
     icon: "",
     type: "Text",
@@ -66,6 +65,59 @@ const elements = ref([
     icon: "",
     type: "Image",
     element: "img",
+  },
+]);
+
+const shapes = reactive([
+  {
+    type: "shape",
+    icon: "pi-star",
+    element: "i",
+  },
+  {
+    type: "shape",
+    icon: "pi-star-fill",
+    element: "i",
+  },
+  {
+    type: "shape",
+    icon: "pi-circle",
+    element: "i",
+  },
+  {
+    type: "shape",
+    icon: "pi-circle-fill",
+    element: "i",
+  },
+  {
+    type: "shape",
+    icon: "pi-heart",
+    element: "i",
+  },
+  {
+    type: "shape",
+    icon: "pi-heart-fill",
+    element: "i",
+  },
+  {
+    type: "shape",
+    icon: "pi-globe",
+    element: "i",
+  },
+  {
+    type: "shape",
+    icon: "pi-facebook",
+    element: "i",
+  },
+  {
+    type: "shape",
+    icon: "pi-github",
+    element: "i",
+  },
+  {
+    type: "shape",
+    icon: "pi-google",
+    element: "i",
   },
 ]);
 
