@@ -24,18 +24,20 @@ import { ref, reactive, onMounted } from "vue";
 const draggingElement = ref(null);
 const activeElement = ref(null);
 const layout = ref(null);
-const offsetX = ref(null);
-const offsetY = ref(null);
+const leftCorrection = ref(0);
+const topCorrection = ref(0);
 
 const onDrop = (e) => {
-  console.log(e.offsetY, e.offsetX);
   const res = JSON.parse(e.dataTransfer.getData("element"));
   const { isNew, element, icon, type } = res;
 
   let data = isNew ? document.createElement(element) : draggingElement.value;
 
-  const offsetX = type == "icon" ? e.offsetX - 10 : e.offsetX - 50;
-  const offsetY = "icon" ? e.offsetY - 5 : e.offsetY - 15;
+  const layoutRect = layout.value.getBoundingClientRect();
+  const offsetX = e.clientX - layoutRect.left - leftCorrection.value;
+  const offsetY = e.clientY - layoutRect.top - topCorrection.value;
+
+  console.log(e);
 
   data.style.left = offsetX + "px";
   data.style.top = offsetY + "px";
@@ -127,9 +129,10 @@ const addDefaultStyles = (el, type) => {
 };
 
 const trackmouse = (e) => {
-  // if (e.target.id == "layout") {
-  // }
-  // console.log(e.offsetY, e.offsetX);
+  if (e.target.id !== "layout") {
+    leftCorrection.value = e.offsetX;
+    topCorrection.value = e.offsetY;
+  }
 };
 
 onMounted(() => {
