@@ -22,7 +22,11 @@
         >
           <i class="pi pi-minus text-xs"></i>
         </button>
-        <span class="text-[#a670ff]">{{ fontSize }}</span>
+        <input
+          @input="updateFontSize('default')"
+          class="w-8 focus:outline-none text-[#a670ff]"
+          v-model="fontSize"
+        />
         <button
           @click="updateFontSize('add')"
           class="p-2 border w-8 h-8 flex items-center justify-center hover:border-[#a670ff]"
@@ -73,6 +77,9 @@ const updateFontSize = (type) => {
     data.value.style.fontSize = size + 2 + "px";
   } else if (type == "subtract" && size > 8) {
     data.value.style.fontSize = size - 2 + "px";
+  } else if (type == "default") {
+    console.log(type, fontSize.value);
+    data.value.style.fontSize = fontSize.value + "px";
   }
 
   fontSize.value = parseInt(data.value.style.fontSize, 10);

@@ -37,9 +37,8 @@ const onDrop = (e) => {
   data.style.left = offsetX + "px";
   data.style.top = offsetY + "px";
 
-  addDefaultStyles(data, type);
-
   if (isNew) {
+    addDefaultStyles(data, type);
     data.style.position = "absolute";
     data.innerText = type !== "shape" ? type : null;
 
@@ -61,7 +60,7 @@ const onDrop = (e) => {
 const selectedElement = (e) => {
   //   console.log(e);
   activeElement.value = e.target;
-  // e.target.classList.add("selected");
+  e.target.classList.add("selected");
 };
 
 const startDrag = (e) => {
