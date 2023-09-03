@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-[#150037] z-10 fixed top-0 left-0 p-6 w-80 h-screen text-white flex flex-col gap-6"
+    class="bg-[#150037] z-20 fixed top-0 left-0 p-6 w-72 h-screen text-white flex flex-col gap-6"
   >
     <div class="grid grid-cols-2 gap-2 mt-2">
       <button
@@ -23,34 +23,38 @@
         :draggable="true"
         @dragstart="startDrag($event, element)"
       >
-        <span>icon</span>
+        <!-- <span>icon</span> -->
         <span class="text-sm">{{ element.type }}</span>
       </div>
     </div>
-    <div v-show="activeBlock == 'Shapes'" class="grid grid-cols-4 gap-4">
+    <div v-show="activeBlock == 'Icons'" class="grid grid-cols-4 gap-4">
       <i
-        v-for="shape in shapes"
-        :key="shape.icon"
+        v-for="item in icons"
+        :key="item.icon"
         :draggable="true"
-        @dragstart="startDrag($event, shape)"
-        :class="['pi', shape.icon]"
-        class="text-4xl"
+        @dragstart="startDrag($event, item)"
+        :class="['pi', item.icon]"
+        class="text-4xl hover:text-[#A670FF] hover:cursor-pointer"
       ></i>
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
-import shapes from "../utils/icons.js";
+import { ref, reactive } from "vue";
 const activeBlock = ref("Elements");
-const blocks = ref(["Elements", "Shapes"]);
+const blocks = ref(["Elements", "Icons"]);
 
-const elements = ref([
+const elements = reactive([
   {
     icon: "",
     type: "Text",
-    element: "p",
+    element: "div",
+  },
+  {
+    icon: "",
+    type: "Heading",
+    element: "div",
   },
   {
     icon: "",
@@ -66,6 +70,59 @@ const elements = ref([
     icon: "",
     type: "Image",
     element: "img",
+  },
+]);
+
+const icons = reactive([
+  {
+    type: "icon",
+    icon: "pi-star",
+    element: "i",
+  },
+  {
+    type: "icon",
+    icon: "pi-star-fill",
+    element: "i",
+  },
+  {
+    type: "icon",
+    icon: "pi-circle",
+    element: "i",
+  },
+  {
+    type: "icon",
+    icon: "pi-circle-fill",
+    element: "i",
+  },
+  {
+    type: "icon",
+    icon: "pi-heart",
+    element: "i",
+  },
+  {
+    type: "icon",
+    icon: "pi-heart-fill",
+    element: "i",
+  },
+  {
+    type: "icon",
+    icon: "pi-globe",
+    element: "i",
+  },
+  {
+    type: "icon",
+    icon: "pi-facebook",
+    element: "i",
+  },
+  {
+    type: "icon",
+    icon: "pi-github",
+    element: "i",
+  },
+  {
+    type: "icon",
+    icon: "pi-google",
+    element: "i",
   },
 ]);
 

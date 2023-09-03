@@ -1,7 +1,7 @@
 <script setup>
 import NavBar from "./components/NavBar.vue";
 import SideBar from "./components/SideBar.vue";
-import Editor from "./view/Editor.vue";
+import Editor from "./views/Editor.vue";
 </script>
 
 <template>
