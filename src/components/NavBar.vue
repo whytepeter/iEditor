@@ -33,16 +33,20 @@
 </template>
 
 <script setup>
-import { computed, onMounted, reactive, ref } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { computed, reactive, ref } from "vue";
+import { useRouter } from "vue-router";
 
 const router = useRouter();
-const route = useRoute();
+
 const buttons = reactive([
   {
     title: "Preview",
     icon: "pi pi-desktop",
-    action: handlePreview,
+    action: () => {
+      if (popup.value) {
+        router.push("/preview");
+      }
+    },
   },
   {
     title: "Save",
@@ -51,7 +55,10 @@ const buttons = reactive([
   },
 ]);
 
-const popup = ref(null);
+const popup = computed(() => {
+  let saved = localStorage.getItem("saved");
+  return saved ? JSON.parse(saved) : null;
+});
 
 const popupName = computed({
   get() {
@@ -59,37 +66,12 @@ const popupName = computed({
   },
   set(val) {
     popup.value.name = val;
-    localStorage.setItem("draft", JSON.stringify(popup.value));
+    localStorage.setItem("saved", JSON.stringify(popup.value));
   },
 });
-const allPopups = computed(() => {
-  return JSON.parse(localStorage.getItem("database") ?? "[]");
-});
-
-onMounted(() => {
-  // setPopup();
-});
-
-function setPopup() {
-  const id = route.query.id;
-  if (id) {
-    popup.value = allPopups.value.find((el) => el.id == id);
-  } else {
-    popup.value = JSON.parse(localStorage.getItem("draft"));
-  }
-  popupName.value = popup.value.name;
-  console.log(popup.value);
-}
-
-function handlePreview() {
-  router.push(`/preview?id=${popup.value.id}`);
-}
 
 function handleSave() {
-  let element = document.getElementById("layout");
-  // let element = new XMLSerializer().serializeToString(popupElement);
-
-  console.log(element);
+  let element = document.getElementById("container");
 
   const newElement = {
     name: "Untitle",
@@ -97,16 +79,6 @@ function handleSave() {
   };
 
   localStorage.setItem("saved", JSON.stringify(newElement));
-
-  // popup.value.element = element;
-
-  // const newDb = allPopups.value.filter((el) => el.id !== popup.value.id);
-  // newDb.push(newDb, popup.value);
-
-  // localStorage.setItem("database", JSON.stringify(newDb));
-  // localStorage.setItem("draft", JSON.stringify(popup.value));
-
-  // console.log(popup.value);
 }
 </script>
 

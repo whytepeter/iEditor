@@ -46,7 +46,7 @@
 
         <div v-if="showProperties.font" class="flex items-center gap-4">
           <span
-            @click="updateProperty('fontWeight', 'bold')"
+            @click="updateFormat('fontWeight', 'bold')"
             :class="
               properties.fontWeight == 'bold'
                 ? 'text-[#a670ff] font-bold'
@@ -56,7 +56,7 @@
             >B</span
           >
           <span
-            @click="updateProperty('fontStyle', 'italic')"
+            @click="updateFormat('fontStyle', 'italic')"
             :class="
               properties.fontStyle == 'italic'
                 ? 'text-[#a670ff] font-bold'
@@ -66,7 +66,7 @@
             >I</span
           >
           <span
-            @click="updateProperty('textDecoration', 'underline')"
+            @click="updateFormat('textDecoration', 'underline')"
             :class="
               properties.textDecoration == 'underline'
                 ? 'text-[#a670ff] font-bold'
@@ -306,8 +306,9 @@ const setElement = () => {
     showProperties.font = false;
     showProperties.textField = false;
     showProperties.color = false;
+
     showProperties.padding = data.value.id !== "layout";
-    showProperties.size = data.value.id !== "layout";
+    showProperties.margin = data.value.id !== "layout";
   } else if (tag == "P" || tag == "H4") {
     showProperties.background = false;
     showProperties.border = false;
@@ -324,8 +325,6 @@ const setElement = () => {
     });
     showProperties.size = true;
   }
-
-  // console.log(showProperties, properties, tag);
 };
 
 const updateFontSize = (type) => {
@@ -346,8 +345,8 @@ const udpateBorder = (type) => {
 
 const updateSize = (type) => {
   data.value.style[type] = properties[type] + "px";
-  data.value.style.maxWidth = "96%";
-  data.value.style.maxHeight = "96%";
+  data.value.style.maxWidth = "98%";
+  data.value.style.maxHeight = "98%";
 };
 
 const updatePadding = (type, value) => {
@@ -358,6 +357,11 @@ const updatePadding = (type, value) => {
     properties.paddingTop = value;
     data.value.style.padding = `${properties.paddingTop}px ${properties.paddingLeft}px`;
   }
+};
+
+const updateFormat = (property, value) => {
+  properties[property] = properties[property] == value ? "" : value;
+  data.value.style[property] = properties[property];
 };
 
 const updateTextField = () => {

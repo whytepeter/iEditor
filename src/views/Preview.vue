@@ -49,10 +49,8 @@ const showPopup = ref(false);
 const preview = ref(null);
 
 const popup = computed(() => {
-  const id = route.query.id;
-  let db = JSON.parse(localStorage.getItem("database"));
-
-  return db.find((el) => el.id == id);
+  let saved = localStorage.getItem("saved");
+  return saved ? JSON.parse(saved) : null;
 });
 
 console.log(popup.value);
@@ -60,16 +58,13 @@ console.log(popup.value);
 watch(showPopup, () => {
   if (popup.value) {
     if (showPopup.value) {
-      const parser = new DOMParser();
-      const element = parser.parseFromString(popup.value.element, "text/html")
-        .body.firstChild;
-
-      element.id = popup.value.name;
-      preview.value.appendChild(element);
+      const element = popup.value.element;
+      popup.value.name;
+      preview.value.innerHTML = element;
     } else {
       let element = document.getElementById(popup.value.name);
       console.log(element);
-      preview.value.removeChild(element);
+      preview.value.innerHTML = null;
     }
   }
 });

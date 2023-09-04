@@ -5,16 +5,18 @@
   >
     <Properties :element="activeElement" />
 
-    <div
-      @mousemove="trackmouse"
-      @click="selectedElement"
-      @dragover.prevent
-      @drop="onDrop($event)"
-      ref="layout"
-      id="layout"
-      style="background: #f38f70"
-      class="relative overflow-hidden mx-auto min-w-[350px] min-h-[350px] md:w-[450px] md:h-[450px]"
-    ></div>
+    <div ref="container" id="container">
+      <div
+        @dragover.prevent
+        @mousemove="trackmouse"
+        @click="selectedElement"
+        @drop="onDrop"
+        ref="layout"
+        id="layout"
+        style="background-color: antiquewhite"
+        class="relative overflow-hidden mx-auto w-[450px] h-[450px]"
+      ></div>
+    </div>
   </div>
 </template>
 
@@ -28,28 +30,24 @@ const route = useRoute();
 const draggingElement = ref(null);
 const activeElement = ref(null);
 const layout = ref(null);
-const editor = ref(null);
+const container = ref(null);
 const leftCorrection = ref(0);
 const topCorrection = ref(0);
 
-const allPopups = computed(() => {
-  return JSON.parse(localStorage.getItem("database") ?? "[]");
-});
+const defaultTemplate = `<div id="layout" class="relative overflow-hidden mx-auto w-[450px] h-[450px]" style="background-color: antiquewhite;"><h4 draggable="true" type="Heading" style="left: 190.007px; top: 187.46px; font-size: 30px; font-weight: bold; color: rgb(255, 255, 255); max-width: 100%; line-height: 1.5; position: absolute;">Heading</h4><input placeholder="Text input" draggable="true" type="Fields" style="left: 154.007px; top: 249.267px; padding: 10px 20px; color: rgb(21, 0, 55); outline: none; border-radius: 7px; font-size: 16px; position: absolute;"></div>`;
 
 const onDrop = (e) => {
   console.log(e);
-  console.log(e.dataTransfer.getData("element"));
+  const layout = document.getElementById("layout");
 
   const res = JSON.parse(e.dataTransfer.getData("element"));
   const { isNew, element, icon, type } = res;
 
   let data = isNew ? document.createElement(element) : draggingElement.value;
 
-  const layoutRect = layout.value.getBoundingClientRect();
+  const layoutRect = layout.getBoundingClientRect();
   const offsetX = e.clientX - layoutRect.left - leftCorrection.value;
   const offsetY = e.clientY - layoutRect.top - topCorrection.value;
-
-  console.log(e);
 
   data.style.left = offsetX + "px";
   data.style.top = offsetY + "px";
@@ -64,18 +62,16 @@ const onDrop = (e) => {
 
     data.setAttribute("draggable", "true");
     data.setAttribute("type", type);
-    // data.addEventListener("dragstart", startDrag);
-    data.ondragstart = startDrag;
+    data.addEventListener("dragstart", startDrag);
     data.addEventListener("click", selectedElement);
 
-    layout.value.appendChild(data);
+    layout.appendChild(data);
 
     activeElement.value = data;
   }
 };
 
 const selectedElement = (e) => {
-  //   console.log(e);
   const clickedElement = e.target;
   if (activeElement.value !== clickedElement) {
     if (activeElement.value) {
@@ -87,14 +83,12 @@ const selectedElement = (e) => {
 };
 
 const startDrag = (e) => {
-  console.log(e);
   draggingElement.value = e.target;
   const data = {
     type: e.target.getAttribute("type"),
     isNew: false,
   };
 
-  console.log("DATA", data);
   e.dataTransfer.setData("element", JSON.stringify(data));
 };
 
@@ -155,17 +149,30 @@ const setTemplate = () => {
   let saved = localStorage.getItem("saved");
   let template = saved ? JSON.parse(saved) : null;
 
-  if (template) {
-    console.log(template.element);
-    layout.value.innerHTML = template.element;
-  }
+  console.log(template);
+  container.value.innerHTML = template ? template.element : defaultTemplate;
+
+  addStartDragEvent();
+};
+
+const addStartDragEvent = () => {
+  const layout = document.getElementById("layout");
+
+  layout.addEventListener("mousemove", trackmouse);
+  layout.addEventListener("drop", onDrop);
+  layout.addEventListener("click", selectedElement);
+  layout.addEventListener("dragover", (e) => {
+    e.preventDefault();
+  });
+
+  const childElements = layout.querySelectorAll("*");
+  childElements.forEach((element) => {
+    element.addEventListener("dragstart", startDrag);
+  });
 };
 
 onMounted(() => {
   setTemplate();
-  if (!activeElement.value) {
-    activeElement.value = layout.value;
-  }
 });
 </script>
 
