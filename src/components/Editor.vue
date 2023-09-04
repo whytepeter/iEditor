@@ -95,47 +95,53 @@ const startDrag = (e) => {
 const addDefaultStyles = (el, type, name) => {
   console.log(el, type);
 
-  if (type == "Button") {
-    el.style.padding = "10px 20px";
-    el.style.color = "#ffff";
-    el.style.background = "#A670FF";
-    el.style.borderRadius = "7px";
-    el.style.fontSize = "16px";
-    el.innerText = type;
-  } else if (type == "Fields") {
-    el.style.padding = "10px 20px";
-    el.style.color = "#150037";
-    el.style.outline = "none";
-    el.style.borderRadius = "7px";
-    el.style.fontSize = "16px";
-    el.setAttribute("placeholder", "Text input");
-  } else if (type == "Text") {
-    el.style.fontSize = "16px";
-    el.style.color = "#ffff";
-    el.style.maxWidth = "100%";
-    el.style.background = null;
-    el.innerText = type;
-  } else if (type == "Heading") {
-    el.style.fontSize = "30px";
-    el.style.fontWeight = "Bold";
-    el.style.color = "#ffff";
-    el.style.maxWidth = "100%";
-    el.style.background = null;
-    el.style.lineHeight = "1.5";
-    el.innerText = type;
-  } else if (type == "icon") {
-    el.style.fontSize = "30px";
-    el.style.color = "#ffff";
-  } else if (type == "Image") {
-    el.style.objectFit = "cover";
-    el.style.width = "100px";
-    el.style.height = "100px";
-    el.setAttribute("src", "");
-  } else if (type == "Shape") {
-    el.style.background = "#ffff";
-    el.style.width = "100px";
-    el.style.height = "100px";
+  const defaultStyles = {
+    Button: {
+      padding: "10px 20px",
+      color: "#ffff",
+      background: "#A670FF",
+      borderRadius: "7px",
+      fontSize: "16px",
+    },
+    Fields: {
+      padding: "10px 20px",
+      color: "#150037",
+      outline: "none",
+      borderRadius: "7px",
+      fontSize: "16px",
+    },
+    Text: {
+      fontSize: "16px",
+      color: "#ffff",
+      maxWidth: "100%",
+      background: null,
+    },
+    Heading: {
+      fontSize: "30px",
+      fontWeight: "Bold",
+      color: "#ffff",
+      maxWidth: "100%",
+      background: null,
+      lineHeight: "1.5",
+    },
+    icon: {
+      fontSize: "30px",
+      color: "#ffff",
+    },
+    Shape: {
+      background: "#ffff",
+      width: "100px",
+      height: "100px",
+    },
+  };
+
+  const styles = defaultStyles[type];
+  if (styles) {
+    for (const prop in styles) {
+      el.style[prop] = styles[prop];
+    }
   }
+  el.innerText = type;
 };
 
 const trackmouse = (e) => {

@@ -264,24 +264,22 @@ const properties = reactive({});
 
 watch(watchElement, () => {
   if (props.element) {
-    setElement();
+    setProperty();
   }
 });
 
 onMounted(() => {
   if (props.element) {
-    setElement();
+    setProperty();
   }
 });
 
-const setElement = () => {
+const setProperty = () => {
   data.value = props.element;
   const tag = data.value.tagName;
 
   Object.keys(data.value.style).forEach((key) => {
-    // if (data.value.style[key]) {
     properties[key] = data.value.style[key];
-    // }
   });
 
   properties.lineHeight = parseInt(data.value.style.lineHeight, 10);
