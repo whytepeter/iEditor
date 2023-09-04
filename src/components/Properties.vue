@@ -1,7 +1,7 @@
 <template>
   <div class="bg-white px-4 py-2 my-4 border-b w-full text-[#2E2E2E] text-sm">
-    <div v-if="data" class="flex items-center gap-2 justify-between">
-      <div class="flex items-center gap-4 flex-wrap">
+    <div v-if="data" class="flex items-center justify-between">
+      <div class="flex items-center gap-2 flex-wrap">
         <input
           v-if="showProperties.textField"
           class="w-44 h-8 border focus:outline-none focus:border-[#a670ff] p-2"
@@ -325,8 +325,8 @@ const udpateBorder = (type) => {
 };
 const updateSize = (type) => {
   data.value.style[type] = properties[type] + "px";
-  data.value.style.maxWidth = "90%";
-  data.value.style.maxHeight = "90%";
+  data.value.style.maxWidth = "96%";
+  data.value.style.maxHeight = "96%";
 };
 
 const updatePadding = (type, value) => {
