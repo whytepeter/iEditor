@@ -53,7 +53,7 @@ const onDrop = (e) => {
     data.addEventListener("dragstart", startDrag);
     data.addEventListener("click", selectedElement);
 
-    e.target.appendChild(data);
+    layout.value.appendChild(data);
 
     activeElement.value = data;
   }
@@ -114,7 +114,7 @@ const addDefaultStyles = (el, type, name) => {
     el.style.color = "#ffff";
     el.style.maxWidth = "100%";
     el.style.background = null;
-    el.style.lineHeight = "2.2rem";
+    el.style.lineHeight = "1.5";
     el.innerText = type;
   } else if (type == "icon") {
     el.style.fontSize = "30px";

@@ -76,6 +76,7 @@
             class="text-lg cursor-pointer underline"
             >U</span
           >
+
           <i
             v-for="align in alignments"
             :key="align.title"
@@ -157,6 +158,20 @@
             class="w-10 h-7 border focus:outline-none text-[#a670ff] text-center"
             v-model="properties.paddingLeft"
           />
+
+          <div
+            v-if="showProperties.font"
+            class="flex items-center gap-2 border p-2"
+          >
+            <i class="cursor-pointer pi pi-sort-amount-down"></i>
+
+            <input
+              @input="updateProperty('lineHeight', $event.target.value)"
+              type="number"
+              class="w-12 h-7 border focus:outline-none text-[#a670ff] text-center"
+              v-model="properties.lineHeight"
+            />
+          </div>
 
           <i
             @click="toggle.padding = !toggle.padding"
@@ -271,6 +286,7 @@ const setElement = () => {
     // }
   });
 
+  properties.lineHeight = parseInt(data.value.style.lineHeight, 10);
   properties.width = parseInt(data.value.style.width, 10);
   properties.height = parseInt(data.value.style.height, 10);
   properties.paddingLeft = parseInt(data.value.style.paddingLeft, 10);
@@ -304,6 +320,11 @@ const setElement = () => {
     });
     showProperties.color = true;
     showProperties.font = true;
+  } else if (tag == "IMG") {
+    Object.keys(showProperties).forEach((key) => {
+      showProperties[key] = false;
+    });
+    showProperties.size = true;
   }
 
   console.log(showProperties, properties, tag);
@@ -324,6 +345,7 @@ const udpateBorder = (type) => {
   data.value.style[type] =
     type == "borderColor" ? properties[type] : properties[type] + "px";
 };
+
 const updateSize = (type) => {
   data.value.style[type] = properties[type] + "px";
   data.value.style.maxWidth = "90%";
