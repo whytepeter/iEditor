@@ -74,7 +74,7 @@ function handleSave() {
   let element = document.getElementById("container");
 
   const newElement = {
-    name: "Untitle",
+    name: popupName.value,
     element: element.innerHTML,
   };
 
