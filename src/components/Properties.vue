@@ -1,5 +1,6 @@
 <template>
-  <div class="bg-white px-4 py-2 my-4 border-b w-full text-[#2E2E2E] text-sm">
+  <!-- absolute top-10 left-0 w-full z-10 -->
+  <div class="bg-white w-full px-4 py-2 my-4 border-b text-[#2E2E2E] text-xs">
     <div v-if="data" class="flex items-center gap-2 justify-between">
       <div class="flex items-center gap-4 flex-wrap">
         <input

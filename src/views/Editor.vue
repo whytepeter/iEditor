@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="h-screen ml-72 w-full flex items-center flex-col gap-4 justify-center relative"
-  >
+  <div class="h-screen pt-10 md:ml-72 w-full flex flex-col gap-4 relative">
     <Properties :element="activeElement" />
 
     <div
@@ -11,8 +9,8 @@
       @drop="onDrop($event)"
       ref="layout"
       id="layout"
-      style="width: 550px; height: 550px; background: #f38f70"
-      class="relative overflow-hidden"
+      style="background: #f38f70"
+      class="relative overflow-hidden mx-auto min-w-[350px] min-h-[350px] md:w-[400px] md:h-[400px]"
     ></div>
   </div>
 </template>
