@@ -292,6 +292,7 @@ const setElement = () => {
     showProperties.textField = false;
     showProperties.color = false;
     showProperties.padding = data.value.id !== "layout";
+    showProperties.size = data.value.id !== "layout";
   } else if (tag == "P" || tag == "H4") {
     showProperties.background = false;
     showProperties.border = false;
