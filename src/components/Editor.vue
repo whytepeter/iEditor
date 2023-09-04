@@ -1,6 +1,7 @@
 <template>
   <div
-    class="h-screen ml-72 w-full flex items-center flex-col gap-4 justify-center relative"
+    ref="editor"
+    class="h-screen pt-10 md:ml-72 w-full flex flex-col gap-4 relative"
   >
     <Properties :element="activeElement" />
 
@@ -11,23 +12,34 @@
       @drop="onDrop($event)"
       ref="layout"
       id="layout"
-      style="width: 550px; height: 550px; background: #f38f70"
-      class="relative overflow-hidden"
+      style="background: #f38f70"
+      class="relative overflow-hidden mx-auto min-w-[350px] min-h-[350px] md:w-[450px] md:h-[450px]"
     ></div>
   </div>
 </template>
 
 <script setup>
-import Properties from "../components/Properties.vue";
-import { ref, reactive, onMounted } from "vue";
+import Properties from "./Properties.vue";
+import { computed, ref, reactive, onMounted } from "vue";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
 
 const draggingElement = ref(null);
 const activeElement = ref(null);
 const layout = ref(null);
+const editor = ref(null);
 const leftCorrection = ref(0);
 const topCorrection = ref(0);
 
+const allPopups = computed(() => {
+  return JSON.parse(localStorage.getItem("database") ?? "[]");
+});
+
 const onDrop = (e) => {
+  console.log(e);
+  console.log(e.dataTransfer.getData("element"));
+
   const res = JSON.parse(e.dataTransfer.getData("element"));
   const { isNew, element, icon, type } = res;
 
@@ -52,10 +64,11 @@ const onDrop = (e) => {
 
     data.setAttribute("draggable", "true");
     data.setAttribute("type", type);
-    data.addEventListener("dragstart", startDrag);
+    // data.addEventListener("dragstart", startDrag);
+    data.ondragstart = startDrag;
     data.addEventListener("click", selectedElement);
 
-    e.target.appendChild(data);
+    layout.value.appendChild(data);
 
     activeElement.value = data;
   }
@@ -73,17 +86,15 @@ const selectedElement = (e) => {
   clickedElement.classList.add("selected");
 };
 
-const addResizeableNodes = (e) => {
-  const element = e.target;
-};
-
 const startDrag = (e) => {
+  console.log(e);
   draggingElement.value = e.target;
   const data = {
     type: e.target.getAttribute("type"),
     isNew: false,
   };
 
+  console.log("DATA", data);
   e.dataTransfer.setData("element", JSON.stringify(data));
 };
 
@@ -116,15 +127,13 @@ const addDefaultStyles = (el, type, name) => {
     el.style.color = "#ffff";
     el.style.maxWidth = "100%";
     el.style.background = null;
-    el.style.lineHeight = "2.2rem";
+    el.style.lineHeight = "1.5";
     el.innerText = type;
   } else if (type == "icon") {
     el.style.fontSize = "30px";
     el.style.color = "#ffff";
   } else if (type == "Image") {
     el.style.objectFit = "cover";
-    el.style.objectFit = "cover";
-
     el.style.width = "100px";
     el.style.height = "100px";
     el.setAttribute("src", "");
@@ -142,7 +151,18 @@ const trackmouse = (e) => {
   }
 };
 
+const setTemplate = () => {
+  let saved = localStorage.getItem("saved");
+  let template = saved ? JSON.parse(saved) : null;
+
+  if (template) {
+    console.log(template.element);
+    layout.value.innerHTML = template.element;
+  }
+};
+
 onMounted(() => {
+  setTemplate();
   if (!activeElement.value) {
     activeElement.value = layout.value;
   }

@@ -1,7 +1,7 @@
 <template>
-  <div class="bg-white px-4 py-2 my-4 border-b w-full text-[#2E2E2E] text-sm">
-    <div v-if="data" class="flex items-center justify-between">
-      <div class="flex items-center gap-2 flex-wrap">
+  <div class="bg-white w-full px-4 py-2 my-4 border-b text-[#2E2E2E] text-xs">
+    <div v-if="data" class="flex items-center gap-2 justify-between">
+      <div class="flex items-center gap-4 flex-wrap">
         <input
           v-if="showProperties.textField"
           class="w-44 h-8 border focus:outline-none focus:border-[#a670ff] p-2"
@@ -75,6 +75,20 @@
             class="text-lg cursor-pointer underline"
             >U</span
           >
+
+          <div class="flex items-center gap-2">
+            <i
+              class="cursor-pointer pi pi-sort-amount-down text-lg text-gray-500"
+            ></i>
+
+            <input
+              @input="updateProperty('lineHeight', $event.target.value)"
+              type="number"
+              class="w-8 h-7 border focus:outline-none text-[#a670ff] text-center"
+              v-model="properties.lineHeight"
+            />
+          </div>
+
           <i
             v-for="align in alignments"
             :key="align.title"
@@ -270,6 +284,7 @@ const setElement = () => {
     // }
   });
 
+  properties.lineHeight = parseInt(data.value.style.lineHeight, 10);
   properties.width = parseInt(data.value.style.width, 10);
   properties.height = parseInt(data.value.style.height, 10);
   properties.paddingLeft = parseInt(data.value.style.paddingLeft, 10);
@@ -303,9 +318,14 @@ const setElement = () => {
     });
     showProperties.color = true;
     showProperties.font = true;
+  } else if (tag == "IMG") {
+    Object.keys(showProperties).forEach((key) => {
+      showProperties[key] = false;
+    });
+    showProperties.size = true;
   }
 
-  console.log(showProperties, properties, tag);
+  // console.log(showProperties, properties, tag);
 };
 
 const updateFontSize = (type) => {
@@ -323,6 +343,7 @@ const udpateBorder = (type) => {
   data.value.style[type] =
     type == "borderColor" ? properties[type] : properties[type] + "px";
 };
+
 const updateSize = (type) => {
   data.value.style[type] = properties[type] + "px";
   data.value.style.maxWidth = "96%";
