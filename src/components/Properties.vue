@@ -75,6 +75,18 @@
             class="text-lg cursor-pointer underline"
             >U</span
           >
+          <i
+            v-for="align in alignments"
+            :key="align.title"
+            @click="updateProperty('textAlign', align.title)"
+            :class="[
+              properties.textAlign == align.title
+                ? 'text-[#a670ff] font-bold'
+                : 'text-gray-500',
+              align.icon,
+            ]"
+            class="text-lg cursor-pointer"
+          ></i>
         </div>
 
         <!-- /////Border///// -->
@@ -207,6 +219,21 @@ const toggle = reactive({
   border: false,
   padding: false,
 });
+
+const alignments = reactive([
+  {
+    title: "left",
+    icon: "pi pi-align-left",
+  },
+  {
+    title: "center",
+    icon: "pi pi-align-center",
+  },
+  {
+    title: "right",
+    icon: "pi pi-align-right",
+  },
+]);
 
 const showProperties = reactive({
   background: true,
