@@ -77,6 +77,19 @@
             >U</span
           >
 
+          <div class="flex items-center gap-2">
+            <i
+              class="cursor-pointer pi pi-sort-amount-down text-lg text-gray-500"
+            ></i>
+
+            <input
+              @input="updateProperty('lineHeight', $event.target.value)"
+              type="number"
+              class="w-8 h-7 border focus:outline-none text-[#a670ff] text-center"
+              v-model="properties.lineHeight"
+            />
+          </div>
+
           <i
             v-for="align in alignments"
             :key="align.title"
@@ -158,20 +171,6 @@
             class="w-10 h-7 border focus:outline-none text-[#a670ff] text-center"
             v-model="properties.paddingLeft"
           />
-
-          <div
-            v-if="showProperties.font"
-            class="flex items-center gap-2 border p-2"
-          >
-            <i class="cursor-pointer pi pi-sort-amount-down"></i>
-
-            <input
-              @input="updateProperty('lineHeight', $event.target.value)"
-              type="number"
-              class="w-12 h-7 border focus:outline-none text-[#a670ff] text-center"
-              v-model="properties.lineHeight"
-            />
-          </div>
 
           <i
             @click="toggle.padding = !toggle.padding"
