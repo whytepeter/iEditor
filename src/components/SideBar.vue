@@ -2,7 +2,7 @@
   <div
     class="bg-[#150037] z-20 fixed top-0 left-0 p-6 w-72 h-screen text-white flex flex-col gap-6"
   >
-    <div class="grid grid-cols-2 gap-2 mt-2">
+    <div class="grid grid-cols-3 gap-2 mt-2 text-sm">
       <button
         :class="
           activeBlock == block ? 'border-b border-[#A670FF]' : ' opacity-50'
@@ -27,6 +27,17 @@
         <span class="text-sm">{{ element.type }}</span>
       </div>
     </div>
+    <div v-show="activeBlock == 'Shapes'" class="grid grid-cols-2 gap-4">
+      <div
+        v-for="shape in shapes"
+        :key="shape.element"
+        :draggable="true"
+        @dragstart="startDrag($event, shape)"
+        class="w-20 h-20 p-4 bg-white"
+      >
+        {{ shape.name }}
+      </div>
+    </div>
     <div v-show="activeBlock == 'Icons'" class="grid grid-cols-4 gap-4">
       <i
         v-for="item in icons"
@@ -43,31 +54,26 @@
 <script setup>
 import { ref, reactive } from "vue";
 const activeBlock = ref("Elements");
-const blocks = ref(["Elements", "Icons"]);
+const blocks = ref(["Elements", "Shapes", "Icons"]);
 
 const elements = reactive([
   {
-    icon: "",
     type: "Text",
-    element: "div",
+    element: "p",
   },
   {
-    icon: "",
     type: "Heading",
-    element: "div",
+    element: "h4",
   },
   {
-    icon: "",
     type: "Fields",
     element: "input",
   },
   {
-    icon: "",
     type: "Button",
     element: "button",
   },
   {
-    icon: "",
     type: "Image",
     element: "img",
   },
@@ -123,6 +129,13 @@ const icons = reactive([
     type: "icon",
     icon: "pi-google",
     element: "i",
+  },
+]);
+
+const shapes = reactive([
+  {
+    type: "Shape",
+    element: "div",
   },
 ]);
 

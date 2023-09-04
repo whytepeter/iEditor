@@ -45,7 +45,6 @@ const onDrop = (e) => {
   if (isNew) {
     addDefaultStyles(data, type);
     data.style.position = "absolute";
-    data.innerText = type !== "icon" ? type : null;
 
     if (icon) {
       data.classList.add("pi", icon);
@@ -88,7 +87,7 @@ const startDrag = (e) => {
   e.dataTransfer.setData("element", JSON.stringify(data));
 };
 
-const addDefaultStyles = (el, type) => {
+const addDefaultStyles = (el, type, name) => {
   console.log(el, type);
 
   if (type == "Button") {
@@ -97,6 +96,7 @@ const addDefaultStyles = (el, type) => {
     el.style.background = "#A670FF";
     el.style.borderRadius = "7px";
     el.style.fontSize = "16px";
+    el.innerText = type;
   } else if (type == "Fields") {
     el.style.padding = "10px 20px";
     el.style.color = "#150037";
@@ -109,12 +109,15 @@ const addDefaultStyles = (el, type) => {
     el.style.color = "#ffff";
     el.style.maxWidth = "100%";
     el.style.background = null;
+    el.innerText = type;
   } else if (type == "Heading") {
     el.style.fontSize = "30px";
     el.style.fontWeight = "Bold";
     el.style.color = "#ffff";
     el.style.maxWidth = "100%";
     el.style.background = null;
+    el.style.lineHeight = "2rem";
+    el.innerText = type;
   } else if (type == "icon") {
     el.style.fontSize = "30px";
     el.style.color = "#ffff";
@@ -122,9 +125,13 @@ const addDefaultStyles = (el, type) => {
     el.style.objectFit = "cover";
     el.style.objectFit = "cover";
 
-    el.setAttribute("width", "100px");
-    el.setAttribute("height", "100px");
+    el.style.width = "100px";
+    el.style.height = "100px";
     el.setAttribute("src", "");
+  } else if (type == "Shape") {
+    el.style.background = "#ffff";
+    el.style.width = "100px";
+    el.style.height = "100px";
   }
 };
 
