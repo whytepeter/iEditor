@@ -72,7 +72,7 @@ const onDrop = (e) => {
 };
 
 const addDefaultStyles = (el, type, name) => {
-  console.log(el, type);
+  // console.log(el, type);
 
   const defaultStyles = {
     Button: {
