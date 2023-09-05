@@ -63,7 +63,7 @@ watch(showPopup, () => {
       preview.value.innerHTML = element;
     } else {
       let element = document.getElementById(popup.value.name);
-      console.log(element);
+      // console.log(element);
       preview.value.innerHTML = null;
     }
   }

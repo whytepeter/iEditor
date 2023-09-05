@@ -33,7 +33,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, reactive, ref } from "vue";
+import { computed, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -43,9 +43,7 @@ const buttons = reactive([
     title: "Preview",
     icon: "pi pi-desktop",
     action: () => {
-      if (popup.value) {
-        router.push("/preview");
-      }
+      router.push("/preview");
     },
   },
   {
@@ -55,7 +53,10 @@ const buttons = reactive([
   },
 ]);
 
-const popup = ref(null);
+const popup = computed(() => {
+  let saved = localStorage.getItem("saved");
+  return saved ? JSON.parse(saved) : null;
+});
 
 const popupName = computed({
   get() {
@@ -76,13 +77,7 @@ function handleSave() {
   };
 
   localStorage.setItem("saved", JSON.stringify(newElement));
-  popup.value = newElement;
 }
-
-onMounted(() => {
-  let saved = localStorage.getItem("saved");
-  popup.value = saved ? JSON.parse(saved) : null;
-});
 </script>
 
 <style></style>
