@@ -104,52 +104,52 @@ const elements = reactive([
 
 const icons = reactive([
   {
-    type: "icon",
+    type: "Icon",
     icon: "pi-star",
     element: "i",
   },
   {
-    type: "icon",
+    type: "Icon",
     icon: "pi-star-fill",
     element: "i",
   },
   {
-    type: "icon",
+    type: "Icon",
     icon: "pi-circle",
     element: "i",
   },
   {
-    type: "icon",
+    type: "Icon",
     icon: "pi-circle-fill",
     element: "i",
   },
   {
-    type: "icon",
+    type: "Icon",
     icon: "pi-heart",
     element: "i",
   },
   {
-    type: "icon",
+    type: "Icon",
     icon: "pi-heart-fill",
     element: "i",
   },
   {
-    type: "icon",
+    type: "Icon",
     icon: "pi-globe",
     element: "i",
   },
   {
-    type: "icon",
+    type: "Icon",
     icon: "pi-facebook",
     element: "i",
   },
   {
-    type: "icon",
+    type: "Icon",
     icon: "pi-github",
     element: "i",
   },
   {
-    type: "icon",
+    type: "Icon",
     icon: "pi-google",
     element: "i",
   },
