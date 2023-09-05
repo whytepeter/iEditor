@@ -71,27 +71,6 @@ const onDrop = (e) => {
   }
 };
 
-const selectedElement = (e) => {
-  const clickedElement = e.target;
-  if (activeElement.value !== clickedElement) {
-    if (activeElement.value) {
-      activeElement.value.classList.remove("selected");
-    }
-  }
-  activeElement.value = clickedElement;
-  clickedElement.classList.add("selected");
-};
-
-const startDrag = (e) => {
-  draggingElement.value = e.target;
-  const data = {
-    type: e.target.getAttribute("type"),
-    isNew: false,
-  };
-
-  e.dataTransfer.setData("element", JSON.stringify(data));
-};
-
 const addDefaultStyles = (el, type, name) => {
   console.log(el, type);
 
@@ -142,6 +121,27 @@ const addDefaultStyles = (el, type, name) => {
     }
   }
   el.innerText = type;
+};
+
+const selectedElement = (e) => {
+  const clickedElement = e.target;
+  if (activeElement.value !== clickedElement) {
+    if (activeElement.value) {
+      activeElement.value.classList.remove("selected");
+    }
+  }
+  activeElement.value = clickedElement;
+  clickedElement.classList.add("selected");
+};
+
+const startDrag = (e) => {
+  draggingElement.value = e.target;
+  const data = {
+    type: e.target.getAttribute("type"),
+    isNew: false,
+  };
+
+  e.dataTransfer.setData("element", JSON.stringify(data));
 };
 
 const trackmouse = (e) => {

@@ -33,7 +33,7 @@
 </template>
 
 <script setup>
-import { computed, reactive, ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -55,10 +55,7 @@ const buttons = reactive([
   },
 ]);
 
-const popup = computed(() => {
-  let saved = localStorage.getItem("saved");
-  return saved ? JSON.parse(saved) : null;
-});
+const popup = ref(null);
 
 const popupName = computed({
   get() {
@@ -79,7 +76,13 @@ function handleSave() {
   };
 
   localStorage.setItem("saved", JSON.stringify(newElement));
+  popup.value = newElement;
 }
+
+onMounted(() => {
+  let saved = localStorage.getItem("saved");
+  popup.value = saved ? JSON.parse(saved) : null;
+});
 </script>
 
 <style></style>
