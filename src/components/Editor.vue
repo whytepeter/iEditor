@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import Properties from "./Properties.vue";
+import Properties from "./Properties/Index.vue";
 import { computed, ref, reactive, onMounted } from "vue";
 import { useRoute } from "vue-router";
 
@@ -48,6 +48,7 @@ const onDrop = (e) => {
 
   let data = isNew ? document.createElement(element) : draggingElement.value;
 
+  // Position the element relative the mouse position
   const layoutRect = layout.getBoundingClientRect();
   const offsetX = e.clientX - layoutRect.left - leftCorrection.value;
   const offsetY = e.clientY - layoutRect.top - topCorrection.value;
@@ -131,10 +132,8 @@ const addDefaultStyles = (el, type, name) => {
 
 const selectedElement = (e) => {
   const clickedElement = e.target;
-  if (activeElement.value !== clickedElement) {
-    if (activeElement.value) {
-      activeElement.value.classList.remove("selected");
-    }
+  if (activeElement.value && activeElement.value !== clickedElement) {
+    activeElement.value.classList.remove("selected");
   }
   activeElement.value = clickedElement;
   clickedElement.classList.add("selected");
@@ -161,10 +160,9 @@ const setTemplate = () => {
   let saved = localStorage.getItem("saved");
   let template = saved ? JSON.parse(saved) : null;
 
-  console.log(template);
   container.value.innerHTML = template
     ? template.element
-    : defaultTemplates.value[0];
+    : defaultTemplates.value[1];
 
   addStartDragEvent();
 };
@@ -172,6 +170,7 @@ const setTemplate = () => {
 const addStartDragEvent = () => {
   const layout = document.getElementById("layout");
 
+  //Add the necessary events when setting the default templates
   layout.addEventListener("mousemove", trackmouse);
   layout.addEventListener("drop", onDrop);
   layout.addEventListener("click", selectedElement);
