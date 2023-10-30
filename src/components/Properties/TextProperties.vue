@@ -1,4 +1,13 @@
 <template>
+  <select
+    v-if="data"
+    v-model="data.style.fontFamily"
+    class="w-44 h-8 border focus:outline-none focus:border-[#a670ff] p-2"
+  >
+    <option v-for="font in fontFamilies" :key="font.value" :value="font.value">
+      {{ font.label }}
+    </option>
+  </select>
   <input
     v-if="data"
     class="w-8 h-8 hover:border-[#a670ff]"
@@ -95,6 +104,7 @@ const props = defineProps(["element"]);
 
 const data = ref(null);
 const properties = reactive({
+  fontFamily: null,
   fontSize: 10,
   fontWeight: null,
   fontStyle: null,
@@ -118,6 +128,30 @@ const alignments = reactive([
     icon: "pi pi-align-right",
   },
 ]);
+
+const fontFamilies = reactive([
+  {
+    label: "Arial",
+    value: "Arial, sans-serif",
+  },
+  {
+    label: "Verdana",
+    value: "Verdana, sans-serif",
+  },
+  {
+    label: "Georgia",
+    value: "Georgia, serif",
+  },
+  {
+    label: "Times New Roman",
+    value: "Times New Roman, serif",
+  },
+  {
+    label: "Courier New",
+    value: "Courier New, monospace",
+  },
+]);
+
 const watchElement = computed(() => props.element);
 
 watch(watchElement, () => {
